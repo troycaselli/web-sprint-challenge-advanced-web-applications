@@ -41,9 +41,9 @@ export default function App() {
         setMessage(res.data.message);
         navigate('/articles');
         getArticles();
-        setSpinnerOn(false);
       })
       .catch(err => {
+        setMessage('');
         setSpinnerOn(false);
         console.log(err);
       });
@@ -60,7 +60,12 @@ export default function App() {
           setArticles(res.data.articles);
           setSpinnerOn(false);
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          setMessage('');
+          if(err.response.status === 401) navigate('/');
+          setSpinnerOn(false);
+          console.log(err);
+        });
     // ✨ implement
     // We should flush the message state, turn on the spinner
     // and launch an authenticated request to the proper endpoint.
