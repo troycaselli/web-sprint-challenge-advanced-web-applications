@@ -32,20 +32,19 @@ export default function App() {
   }
 
   const login = (values) => {
+    setMessage('');
+    setSpinnerOn(true);
     axios.post(loginUrl, values)
       .then(res => {
         localStorage.setItem('token', res.data.token);
-        navigate('/articles');
         setMessage(res.data.message);
-        console.log(res);
+        navigate('/articles');
+        setSpinnerOn(false);
       })
-      .catch(err => console.log(err));
-    // ✨ implement
-    // We should flush the message state, turn on the spinner
-    // and launch a request to the proper endpoint.
-    // On success, we should set the token to local storage in a 'token' key,
-    // put the server success message in its proper state, and redirect
-    // to the Articles screen. Don't forget to turn off the spinner!
+      .catch(err => {
+        setSpinnerOn(false);
+        console.log(err);
+      });
   }
 
   const getArticles = () => {
@@ -78,7 +77,7 @@ export default function App() {
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <>
-      <Spinner />
+      <Spinner on={spinnerOn} />
       <Message message={message} />
       <button id="logout" onClick={logout}>Logout from app</button>
       <div id="wrapper" style={{ opacity: spinnerOn ? "0.25" : "1" }}> {/* <-- do not change this line */}
