@@ -5,6 +5,7 @@ import LoginForm from './LoginForm'
 import Message from './Message'
 import ArticleForm from './ArticleForm'
 import Spinner from './Spinner'
+import PrivateRoutes from './PrivateRoutes';
 
 const articlesUrl = 'http://localhost:9000/api/articles'
 const loginUrl = 'http://localhost:9000/api/login'
@@ -79,12 +80,14 @@ export default function App() {
         </nav>
         <Routes>
           <Route path="/" element={<LoginForm />} />
-          <Route path="articles" element={
-            <>
-              <ArticleForm />
-              <Articles />
-            </>
-          } />
+          <Route element={<PrivateRoutes />}>
+            <Route path="articles" element={
+              <>
+                <ArticleForm />
+                <Articles />
+              </>
+            } />
+          </Route>
         </Routes>
         <footer>Bloom Institute of Technology 2022</footer>
       </div>
