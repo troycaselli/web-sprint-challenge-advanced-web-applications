@@ -7,6 +7,7 @@ import Message from './Message'
 import ArticleForm from './ArticleForm'
 import Spinner from './Spinner'
 import PrivateRoutes from './PrivateRoutes';
+import {axiosWithAuth} from '../axios/index';
 
 const articlesUrl = 'http://localhost:9000/api/articles'
 const loginUrl = 'http://localhost:9000/api/login'
@@ -39,6 +40,7 @@ export default function App() {
         localStorage.setItem('token', res.data.token);
         setMessage(res.data.message);
         navigate('/articles');
+        getArticles();
         setSpinnerOn(false);
       })
       .catch(err => {
@@ -48,6 +50,17 @@ export default function App() {
   }
 
   const getArticles = () => {
+    setMessage('');
+    setSpinnerOn(true);
+    axiosWithAuth()
+      .get(articlesUrl)
+        .then(res => {
+          console.log(res);
+          setMessage(res.data.message);
+          setArticles(res.data.articles);
+          setSpinnerOn(false);
+        })
+        .catch(err => console.error(err));
     // ✨ implement
     // We should flush the message state, turn on the spinner
     // and launch an authenticated request to the proper endpoint.
@@ -92,7 +105,7 @@ export default function App() {
             <Route path="articles" element={
               <>
                 <ArticleForm />
-                <Articles />
+                <Articles articles={articles} />
               </>
             } />
           </Route>
