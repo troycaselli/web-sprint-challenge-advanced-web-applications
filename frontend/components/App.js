@@ -55,7 +55,6 @@ export default function App() {
     axiosWithAuth()
       .get(articlesUrl)
         .then(res => {
-          console.log(res);
           setMessage(res.data.message);
           setArticles(res.data.articles);
           setSpinnerOn(false);
@@ -110,10 +109,8 @@ export default function App() {
           const updatedArticles = articles.map(el => {
             if(el.article_id === article.article_id) return {...el , title: article.title, text: article.text, topic: article.topic};
             return el;
-          })
-          console.log(updatedArticles);
+          });
           setArticles(updatedArticles);
-          console.log(res.data.article);
         })
         .catch(err => {
           setMessage('');
@@ -121,14 +118,26 @@ export default function App() {
           setSpinnerOn(false);
         });
   }
-  console.log(articles);
 
   const deleteArticle = article_id => {
-    // ✨ implement
+    setMessage('');
+    axiosWithAuth()
+      .delete(`${articlesUrl}/${article_id}`)
+        .then(res => {
+          setMessage(res.data.message);
+          console.log(res);
+          const filteredArticles = articles.filter(el => el.article_id !== article_id);
+          setArticles(filteredArticles);
+          setSpinnerOn(false);
+        })
+        .catch(err => {
+          setMessage('');
+          console.error(err);
+          setSpinnerOn(false);
+        });
   }
 
   return (
-    // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <>
       <Spinner on={spinnerOn} />
       <Message message={message} />
@@ -157,6 +166,8 @@ export default function App() {
                   currentArticleId={currentArticleId} 
                   getArticles={getArticles} 
                   setCurrentArticleId={setCurrentArticleId}
+                  deleteArticle={deleteArticle}
+                  setSpinnerOn={setSpinnerOn}
                 />
               </>
             } />
