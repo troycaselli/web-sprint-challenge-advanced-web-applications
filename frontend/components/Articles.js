@@ -15,7 +15,6 @@ export default function Articles(props) {
   const handleEditArticle = (id) => {
     setCurrentArticleId(id);
   }
-  console.log(currentArticleId);
 
   return (
     // ✨ fix the JSX: replace `Function.prototype` with actual functions

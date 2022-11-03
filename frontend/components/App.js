@@ -100,10 +100,28 @@ export default function App() {
     // to inspect the response from the server.
   }
 
-  const updateArticle = ({ article_id, article }) => {
-    // ✨ implement
-    // You got this!
+  const updateArticle = (article) => {
+    setMessage('');
+    axiosWithAuth()
+      .put(`${articlesUrl}/${article.article_id}`, { title: article.title, text: article.text, topic: article.topic })
+        .then(res => {
+          setMessage(res.data.message);
+          setSpinnerOn(false);
+          const updatedArticles = articles.map(el => {
+            if(el.article_id === article.article_id) return {...el , title: article.title, text: article.text, topic: article.topic};
+            return el;
+          })
+          console.log(updatedArticles);
+          setArticles(updatedArticles);
+          console.log(res.data.article);
+        })
+        .catch(err => {
+          setMessage('');
+          console.error(err);
+          setSpinnerOn(false);
+        });
   }
+  console.log(articles);
 
   const deleteArticle = article_id => {
     // ✨ implement
@@ -132,6 +150,7 @@ export default function App() {
                   postArticle={postArticle} 
                   updateArticle={updateArticle} 
                   setCurrentArticleId={setCurrentArticleId} 
+                  setSpinnerOn={setSpinnerOn}
                 />
                 <Articles 
                   articles={articles} 
