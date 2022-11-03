@@ -77,6 +77,23 @@ export default function App() {
   }
 
   const postArticle = article => {
+    console.log(article);
+    setMessage('');
+    setSpinnerOn(true);
+    axiosWithAuth()
+      .post(articlesUrl, article)
+        .then(res => {
+          console.log(res);
+          setMessage(res.data.message);
+          setArticles([...articles, res.data.article]);
+          setSpinnerOn(false);
+        })
+        .catch(err => {
+          setMessage('');
+          if(err.response.status === 401) navigate('/');
+          setSpinnerOn(false);
+          console.log(err);
+        });
     // ✨ implement
     // The flow is very similar to the `getArticles` function.
     // You'll know what to do! Use log statements or breakpoints
@@ -109,7 +126,7 @@ export default function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="articles" element={
               <>
-                <ArticleForm currentArticleId={currentArticleId} articles={articles} />
+                <ArticleForm currentArticleId={currentArticleId} articles={articles} postArticle={postArticle} updateArticle={updateArticle} />
                 <Articles articles={articles} />
               </>
             } />

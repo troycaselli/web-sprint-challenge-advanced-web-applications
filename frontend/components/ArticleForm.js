@@ -4,7 +4,7 @@ import PT from 'prop-types'
 const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function ArticleForm(props) {
-  const {currentArticleId, articles} = props;
+  const {currentArticleId, articles, postArticle, updateArticle} = props;
 
   const [values, setValues] = useState(initialFormValues);
   // ✨ where are my props? Destructure them here
@@ -27,10 +27,13 @@ export default function ArticleForm(props) {
   }
 
   const onSubmit = evt => {
-    evt.preventDefault()
-    // ✨ implement
-    // We must submit a new post or update an existing one,
-    // depending on the truthyness of the `currentArticle` prop.
+    evt.preventDefault();
+    if(currentArticleId) {
+      updateArticle(values);
+    } else {
+      postArticle(values);
+    }
+    setValues(initialFormValues);
   }
 
   const isDisabled = () => {
