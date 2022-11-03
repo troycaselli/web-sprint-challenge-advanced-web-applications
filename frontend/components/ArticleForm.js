@@ -11,7 +11,7 @@ export default function ArticleForm(props) {
 
   useEffect(() => {
     if(currentArticleId) {
-      setValues(articles.find(article => article.id === currentArticleId));
+      setValues(articles.find(article => article.article_id === currentArticleId));
     } else {
       setValues(initialFormValues);
     }
