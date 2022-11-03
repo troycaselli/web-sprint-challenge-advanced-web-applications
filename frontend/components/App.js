@@ -21,14 +21,14 @@ export default function App() {
 
   // ✨ Research `useNavigate` in React Router v.6
   const navigate = useNavigate();
-  const redirectToLogin = () => { /* ✨ implement */ }
-  const redirectToArticles = () => { /* ✨ implement */ }
+  const redirectToLogin = () => { navigate('/'); }
+  const redirectToArticles = () => { navigate('/articles'); }
 
   const logout = () => {
     if(localStorage.getItem('token')) {
       localStorage.removeItem('token');
       setMessage('Goodbye!');
-      navigate('/');
+      redirectToLogin();
     }
     // ✨ implement
     // If a token is in local storage it should be removed,
@@ -44,7 +44,7 @@ export default function App() {
       .then(res => {
         localStorage.setItem('token', res.data.token);
         setMessage(res.data.message);
-        navigate('/articles');
+        redirectToArticles();
         getArticles();
       })
       .catch(err => {
