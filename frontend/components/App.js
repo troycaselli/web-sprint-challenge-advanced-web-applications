@@ -126,8 +126,19 @@ export default function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="articles" element={
               <>
-                <ArticleForm currentArticleId={currentArticleId} articles={articles} postArticle={postArticle} updateArticle={updateArticle} />
-                <Articles articles={articles} currentArticleId={currentArticleId} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId} />
+                <ArticleForm 
+                  currentArticleId={currentArticleId} 
+                  articles={articles} 
+                  postArticle={postArticle} 
+                  updateArticle={updateArticle} 
+                  setCurrentArticleId={setCurrentArticleId} 
+                />
+                <Articles 
+                  articles={articles} 
+                  currentArticleId={currentArticleId} 
+                  getArticles={getArticles} 
+                  setCurrentArticleId={setCurrentArticleId}
+                />
               </>
             } />
           </Route>

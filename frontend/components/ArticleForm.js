@@ -4,7 +4,13 @@ import PT from 'prop-types'
 const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function ArticleForm(props) {
-  const {currentArticleId, articles, postArticle, updateArticle} = props;
+  const {
+    currentArticleId, 
+    articles, 
+    postArticle, 
+    updateArticle, 
+    setCurrentArticleId
+  } = props;
 
   const [values, setValues] = useState(initialFormValues);
   // ✨ where are my props? Destructure them here
@@ -30,10 +36,15 @@ export default function ArticleForm(props) {
     evt.preventDefault();
     if(currentArticleId) {
       updateArticle(values);
+      setCurrentArticleId(null);
     } else {
       postArticle(values);
     }
     setValues(initialFormValues);
+  }
+
+  const handleCancelEdit = () => {
+    setCurrentArticleId(null);
   }
 
   const isDisabled = () => {
@@ -46,7 +57,7 @@ export default function ArticleForm(props) {
   return (
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
     // and replace Function.prototype with the correct function
-    <form id="form" onSubmit={onSubmit}>
+    <form id="form">
       <h2>{currentArticleId ? 'Edit Article' : 'Create Article'}</h2>
       <input
         maxLength={50}
@@ -69,8 +80,8 @@ export default function ArticleForm(props) {
         <option value="Node">Node</option>
       </select>
       <div className="button-group">
-        <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        {currentArticleId ? <button onClick={Function.prototype}>Cancel edit</button> : null}
+        <button disabled={isDisabled()} id="submitArticle" onClick={onSubmit}>Submit</button>
+        {currentArticleId ? <button onClick={handleCancelEdit}>Cancel edit</button> : null}
       </div>
     </form>
   )
