@@ -25,6 +25,11 @@ export default function App() {
   const redirectToArticles = () => { /* ✨ implement */ }
 
   const logout = () => {
+    if(localStorage.getItem('token')) {
+      localStorage.removeItem('token');
+      setMessage('Goodbye!');
+      navigate('/');
+    }
     // ✨ implement
     // If a token is in local storage it should be removed,
     // and a message saying "Goodbye!" should be set in its proper state.
@@ -151,7 +156,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LoginForm login={login} />} />
           <Route element={<PrivateRoutes />}>
-            <Route path="articles" element={
+            <Route path="/articles" element={
               <>
                 <ArticleForm 
                   currentArticleId={currentArticleId} 
