@@ -16,7 +16,7 @@ export default function App() {
   // ✨ MVP can be achieved with these states
   const [message, setMessage] = useState('')
   const [articles, setArticles] = useState([])
-  const [currentArticleId, setCurrentArticleId] = useState()
+  const [currentArticleId, setCurrentArticleId] = useState(null)
   const [spinnerOn, setSpinnerOn] = useState(false)
 
   // ✨ Research `useNavigate` in React Router v.6
@@ -109,7 +109,7 @@ export default function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="articles" element={
               <>
-                <ArticleForm />
+                <ArticleForm currentArticleId={currentArticleId} articles={articles} />
                 <Articles articles={articles} />
               </>
             } />
